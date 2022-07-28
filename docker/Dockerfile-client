@@ -1,0 +1,10 @@
+FROM node:16
+
+WORKDIR /core
+
+COPY . /core
+
+RUN yarn install --production
+RUN yarn build
+
+CMD [ "npm", "start" ]

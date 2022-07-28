@@ -1,0 +1,4 @@
+FROM nginx
+
+COPY k8s_nginx.conf /etc/nginx/nginx.conf
+COPY error.html /etc/nginx/error.html

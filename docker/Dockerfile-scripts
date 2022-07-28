@@ -1,0 +1,17 @@
+FROM node:12
+
+WORKDIR /core/ihelp-app/config
+COPY ihelp-app/config/* ./
+RUN yarn install
+
+WORKDIR /core/ihelp-contracts
+COPY ihelp-contracts/hardhat.config.js ./
+COPY ihelp-contracts/package.json ./
+
+# COPY ihelp-contracts/node_modules ./node_modules
+RUN yarn install
+
+WORKDIR /core/ihelp-contracts/scripts
+COPY ihelp-contracts/scripts/* ./
+
+CMD bash

@@ -1,0 +1,9 @@
+FROM node:12
+
+WORKDIR /core
+
+COPY . /core
+
+RUN yarn install
+
+CMD [ "npm", "run", "serverprod" ]
