@@ -5,7 +5,7 @@ if [ $# -lt 2 ]; then
     exit 1
 fi 
 
-VERSION_TAG="v0.3"
+VERSION_TAG="v0.5"
 
 echo ""
 echo "DEPLOY VERSION $VERSION_TAG OF BUILT DOCKER CONTAINERS..."
@@ -132,6 +132,14 @@ spec:
         env:
         - name: PORT
           value: "3000"
+        volumeMounts:
+        - mountPath: /env
+          name: env-files
+      volumes:
+      - name: env-files
+        hostPath:
+          path: ${PWD}/env
+          type: DirectoryOrCreate
 ---
 apiVersion: apps/v1
 kind: Deployment
