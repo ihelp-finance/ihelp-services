@@ -366,7 +366,7 @@ metadata:
   name: ihelp-leaderboard
   namespace: ihelp-$network
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "*/1 * * * *" # every 1 minute
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -410,5 +410,8 @@ EOF
 echo $kubectl apply -f $deploy_file
 $kubectl apply -f $deploy_file
 
+echo
+echo "FORCE RESTART COMMAND IF NEEDED:"
 echo $kubectl rollout restart deployment -n ihelp-$network
+echo
 #$kubectl rollout restart deployment -n ihelp-$network

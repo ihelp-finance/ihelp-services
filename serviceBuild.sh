@@ -5,6 +5,10 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi 
 
+echo 
+echo "Building to: turbinex/ihelp-$service:${docker_tag}"
+echo
+
 service="$1"
 
 servicedir="$PWD"
@@ -37,3 +41,7 @@ if [[ "$context" == "" ]];then
 fi
 
 DOCKER_BUILDKIT=1 docker build --no-cache -t turbinex/ihelp-$service:${docker_tag} -f $servicedir/docker/Dockerfile-$service $context
+
+echo
+echo docker push turbinex/ihelp-$service:${docker_tag}
+echo 
