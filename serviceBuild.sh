@@ -36,4 +36,4 @@ if [[ "$context" == "" ]];then
     exit 1
 fi
 
-DOCKER_BUILDKIT=1 docker build --no-cache -t ihelp-$service -f $servicedir/docker/Dockerfile-$service $context
+DOCKER_BUILDKIT=1 docker build --no-cache -t turbinex/ihelp-$service:${docker_tag} -f $servicedir/docker/Dockerfile-$service $context
