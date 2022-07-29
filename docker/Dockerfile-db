@@ -1,3 +1,3 @@
 FROM postgres:12
 
-# CMD gosu postgres pg_resetwal -f /var/lib/postgresql/data; gosu postgres postgres
+CMD gosu postgres pg_resetwal -f /var/lib/postgresql/data; gosu postgres postgres

@@ -278,6 +278,7 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 600
       activeDeadlineSeconds: 120
       template:
         metadata:
@@ -324,6 +325,7 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 600
       activeDeadlineSeconds: 120
       template:
         metadata:
@@ -370,6 +372,7 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 60
       activeDeadlineSeconds: 120
       template:
         metadata:
