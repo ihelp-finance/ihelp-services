@@ -5,6 +5,12 @@ if [ $# -lt 2 ]; then
     exit 1
 fi 
 
+VERSION_TAG="v0.3"
+
+echo ""
+echo "DEPLOY VERSION $VERSION_TAG OF BUILT DOCKER CONTAINERS..."
+echo ""
+
 network="$1"
 servicePort="$2"
 
@@ -99,8 +105,7 @@ spec:
     spec:
       containers:
       - name: router
-        image: ihelp-router
-        imagePullPolicy: Never
+        image: turbinex/ihelp-router:$VERSION_TAG
         ports:
         - containerPort: 80
 ---
@@ -121,8 +126,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: ihelp-client
-        imagePullPolicy: Never
+        image: turbinex/ihelp-client:$VERSION_TAG
         ports:
         - containerPort: 3000
         env:
@@ -146,8 +150,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: ihelp-server
-        imagePullPolicy: Never
+        image: turbinex/ihelp-server:$VERSION_TAG
         ports:
         - containerPort: 3001
         env:
@@ -185,8 +188,7 @@ spec:
     spec:
       containers:
       - name: db
-        image: ihelp-db
-        imagePullPolicy: Never
+        image: turbinex/ihelp-db:$VERSION_TAG
         env:
         - name: POSTGRES_DB
           value: "ihelp"
@@ -231,8 +233,7 @@ spec:
     spec:
       containers:
       - name: listener
-        image: ihelp-scripts
-        imagePullPolicy: Never
+        image: turbinex/ihelp-scripts:$VERSION_TAG
         command: ["node"]
         args: ["eventListenerWrapper.js"]
         env:
@@ -278,8 +279,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: upkeep
-            image: ihelp-scripts
-            imagePullPolicy: Never
+            image: turbinex/ihelp-scripts:$VERSION_TAG
             command: ["node"]
             args: ["UPKEEP.js"]
             env:
@@ -325,8 +325,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: reward
-            image: ihelp-scripts
-            imagePullPolicy: Never
+            image: turbinex/ihelp-scripts:$VERSION_TAG
             command: ["node"]
             args: ["REWARD.js"]
             env:
@@ -372,8 +371,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: leaderboard
-            image: ihelp-scripts
-            imagePullPolicy: Never
+            image: turbinex/ihelp-scripts:$VERSION_TAG
             command: ["node"]
             args: ["leaderboard.js"]
             env:
