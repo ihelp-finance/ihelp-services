@@ -5,6 +5,9 @@ WORKDIR /core
 COPY . /core
 
 RUN yarn install --production
-RUN yarn build
+RUN yarn add gnomon
 
-CMD [ "npm", "start" ]
+# the app needs to be built before start for static env variables but this caches a first build
+RUN npm run build
+
+CMD npm run build && npm start

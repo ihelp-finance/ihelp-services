@@ -5,7 +5,7 @@ if [ $# -lt 2 ]; then
     exit 1
 fi 
 
-VERSION_TAG="v0.7"
+VERSION_TAG="v0.8"
 
 echo ""
 echo "DEPLOY VERSION $VERSION_TAG OF BUILT DOCKER CONTAINERS..."
@@ -106,6 +106,7 @@ spec:
       containers:
       - name: router
         image: turbinex/ihelp-router:$VERSION_TAG
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
@@ -127,19 +128,15 @@ spec:
       containers:
       - name: client
         image: turbinex/ihelp-client:$VERSION_TAG
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
         - name: PORT
           value: "3000"
-        volumeMounts:
-        - mountPath: /env
-          name: env-files
-      volumes:
-      - name: env-files
-        hostPath:
-          path: ${PWD}/env
-          type: DirectoryOrCreate
+        envFrom:
+        - secretRef:
+           name: ihelp-secrets
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -159,21 +156,19 @@ spec:
       containers:
       - name: server
         image: turbinex/ihelp-server:$VERSION_TAG
+        imagePullPolicy: Always
         ports:
         - containerPort: 3001
         env:
         - name: PORT
           value: "3001"
+        envFrom:
+        - secretRef:
+           name: ihelp-secrets
         volumeMounts:
         - mountPath: /build
           name: contract-files
-        - mountPath: /env
-          name: env-files
       volumes:
-      - name: env-files
-        hostPath:
-          path: ${PWD}/env
-          type: DirectoryOrCreate
       - name: contract-files
         hostPath:
           path: ${PWD}/ihelp-contracts/build
@@ -197,6 +192,7 @@ spec:
       containers:
       - name: db
         image: turbinex/ihelp-db:$VERSION_TAG
+        imagePullPolicy: Always
         env:
         - name: POSTGRES_DB
           value: "ihelp"
@@ -242,23 +238,21 @@ spec:
       containers:
       - name: listener
         image: turbinex/ihelp-scripts:$VERSION_TAG
+        imagePullPolicy: Always
         command: ["node"]
         args: ["eventListenerWrapper.js"]
         env:
         - name: LOCALHOST_RPC
           value: "https://$network.ihelp.finance/rpc"
+        envFrom:
+        - secretRef:
+           name: ihelp-secrets
         volumeMounts:
-          - mountPath: /core/env
-            name: env-files
           - mountPath: /core/ihelp-contracts/deployments
             name: deploy-files
           - mountPath: /core/ihelp-contracts/artifacts
             name: contract-files
       volumes:
-      - name: env-files
-        hostPath:
-          path: ${PWD}/env
-          type: DirectoryOrCreate
       - name: deploy-files
         hostPath:
           path: ${PWD}/ihelp-contracts/deployments
@@ -289,23 +283,21 @@ spec:
           containers:
           - name: upkeep
             image: turbinex/ihelp-scripts:$VERSION_TAG
+            imagePullPolicy: Always
             command: ["node"]
             args: ["UPKEEP.js"]
             env:
             - name: LOCALHOST_RPC
               value: "https://$network.ihelp.finance/rpc"
+            envFrom:
+            - secretRef:
+               name: ihelp-secrets
             volumeMounts:
-              - mountPath: /core/env
-                name: env-files
               - mountPath: /core/ihelp-contracts/deployments
                 name: deploy-files
               - mountPath: /core/ihelp-contracts/artifacts
                 name: contract-files
           volumes:
-          - name: env-files
-            hostPath:
-              path: ${PWD}/env
-              type: DirectoryOrCreate
           - name: deploy-files
             hostPath:
               path: ${PWD}/ihelp-contracts/deployments
@@ -336,23 +328,21 @@ spec:
           containers:
           - name: reward
             image: turbinex/ihelp-scripts:$VERSION_TAG
+            imagePullPolicy: Always
             command: ["node"]
             args: ["REWARD.js"]
             env:
             - name: LOCALHOST_RPC
               value: "https://$network.ihelp.finance/rpc"
+            envFrom:
+            - secretRef:
+               name: ihelp-secrets
             volumeMounts:
-              - mountPath: /core/env
-                name: env-files
               - mountPath: /core/ihelp-contracts/deployments
                 name: deploy-files
               - mountPath: /core/ihelp-contracts/artifacts
                 name: contract-files
           volumes:
-          - name: env-files
-            hostPath:
-              path: ${PWD}/env
-              type: DirectoryOrCreate
           - name: deploy-files
             hostPath:
               path: ${PWD}/ihelp-contracts/deployments
@@ -383,23 +373,21 @@ spec:
           containers:
           - name: leaderboard
             image: turbinex/ihelp-scripts:$VERSION_TAG
+            imagePullPolicy: Always
             command: ["node"]
             args: ["leaderboard.js"]
             env:
             - name: LOCALHOST_RPC
               value: "https://$network.ihelp.finance/rpc"
+            envFrom:
+            - secretRef:
+               name: ihelp-secrets
             volumeMounts:
-              - mountPath: /core/env
-                name: env-files
               - mountPath: /core/ihelp-contracts/deployments
                 name: deploy-files
               - mountPath: /core/ihelp-contracts/artifacts
                 name: contract-files
           volumes:
-          - name: env-files
-            hostPath:
-              path: ${PWD}/env
-              type: DirectoryOrCreate
           - name: deploy-files
             hostPath:
               path: ${PWD}/ihelp-contracts/deployments
@@ -410,6 +398,13 @@ spec:
               type: DirectoryOrCreate
 EOF
 
+#echo $kubectl delete secret ihelp-secrets --ignore-not-found
+$kubectl delete secret ihelp-secrets --ignore-not-found -n ihelp-$network
+
+#echo $kubectl create secret generic ihelp-secrets --from-env-file=env/.env
+$kubectl create secret generic ihelp-secrets --from-env-file=env/.env -n ihelp-$network
+
+echo
 echo $kubectl apply -f $deploy_file
 $kubectl apply -f $deploy_file
 
