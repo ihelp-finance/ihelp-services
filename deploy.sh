@@ -134,6 +134,8 @@ spec:
         env:
         - name: PORT
           value: "3000"
+        - name: REACT_APP_VERSION_TAG
+          value: "$VERSION_TAG"
         envFrom:
         - secretRef:
            name: ihelp-secrets
