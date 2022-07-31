@@ -403,4 +403,3 @@ echo "FORCE RESTART COMMAND IF NEEDED:"
 echo $kubectl rollout restart deployment -n ihelp-$network
 echo
 #$kubectl rollout restart deployment -n ihelp-$network
-
