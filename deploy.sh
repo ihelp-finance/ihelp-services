@@ -5,7 +5,7 @@ if [ $# -lt 2 ]; then
     exit 1
 fi 
 
-VERSION_TAG="v0.8"
+VERSION_TAG="v0.9"
 
 echo ""
 echo "DEPLOY VERSION $VERSION_TAG OF BUILT DOCKER CONTAINERS..."
@@ -243,9 +243,6 @@ spec:
         imagePullPolicy: Always
         command: ["node"]
         args: ["eventListenerWrapper.js"]
-        env:
-        - name: LOCALHOST_RPC
-          value: "https://$network.ihelp.finance/rpc"
         envFrom:
         - secretRef:
            name: ihelp-secrets
@@ -288,9 +285,6 @@ spec:
             imagePullPolicy: Always
             command: ["node"]
             args: ["UPKEEP.js"]
-            env:
-            - name: LOCALHOST_RPC
-              value: "https://$network.ihelp.finance/rpc"
             envFrom:
             - secretRef:
                name: ihelp-secrets
@@ -333,9 +327,6 @@ spec:
             imagePullPolicy: Always
             command: ["node"]
             args: ["REWARD.js"]
-            env:
-            - name: LOCALHOST_RPC
-              value: "https://$network.ihelp.finance/rpc"
             envFrom:
             - secretRef:
                name: ihelp-secrets
@@ -360,11 +351,11 @@ metadata:
   name: ihelp-leaderboard
   namespace: ihelp-$network
 spec:
-  schedule: "*/1 * * * *" # every 1 minute
+  schedule: "*/3 * * * *" # every 3 minute
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 60
+      ttlSecondsAfterFinished: 180
       activeDeadlineSeconds: 120
       template:
         metadata:
@@ -378,9 +369,6 @@ spec:
             imagePullPolicy: Always
             command: ["node"]
             args: ["leaderboard.js"]
-            env:
-            - name: LOCALHOST_RPC
-              value: "https://$network.ihelp.finance/rpc"
             envFrom:
             - secretRef:
                name: ihelp-secrets
