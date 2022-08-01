@@ -1,3 +1,9 @@
 FROM postgres:14
 
-# CMD gosu postgres pg_resetwal -f /var/lib/postgresql/data; gosu postgres postgres
+RUN echo "#!/bin/bash" > /entry.sh
+RUN echo "set -x" > /entry.sh
+RUN echo "gosu postgres pg_resetwal -f /var/lib/postgresql/data" >> /entry.sh
+RUN echo "/usr/local/bin/docker-entrypoint.sh postgres" >> /entry.sh
+RUN chmod 777 entry.sh
+
+CMD [ "/bin/bash", "/entry.sh" ]
