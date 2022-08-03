@@ -1,5 +1,5 @@
 
-name: Create Release
+name: release
 on:
   workflow_dispatch:
   push:
