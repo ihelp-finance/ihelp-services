@@ -19,10 +19,12 @@ jobs:
           uses: actions/checkout@v2
           with:
             repository: ihelp-finance/ihelp-app
+            path: ihelp-app
         - name: Check out ihelp-contracts repository
           uses: actions/checkout@v2
           with:
             repository: ihelp-finance/ihelp-contracts
+            path: ihelp-contracts
         - name: Build the Docker image
           run: ./serviceBuild.sh ${{ env.service }}
         - name: Login to Docker Hub
