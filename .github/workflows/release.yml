@@ -15,8 +15,14 @@ jobs:
       steps:
         - name: Check out services repository
           uses: actions/checkout@v2
-        - name: Prepare the services environment
-          run: /bin/bash servicePrep.sh
+        - name: Check out ihelp-app repository
+          uses: actions/checkout@v2
+          with:
+            repository: ihelp-finance/ihelp-app
+        - name: Check out ihelp-contracts repository
+          uses: actions/checkout@v2
+          with:
+            repository: ihelp-finance/ihelp-contracts
         - name: Build the Docker image
           run: ./serviceBuild.sh ${{ env.service }}
         - name: Login to Docker Hub
