@@ -5,7 +5,6 @@ services=( ihelp-app ihelp-contracts )
 # test your github connection
 ssh git@github.com > /dev/null 2>&1
 ec=$?
-echo $ec
 if [[ "$ec" != "1" ]];then
     echo "Please add your ssh public key to your github account so you can pull the ihelp repos down..."
     exit 1
