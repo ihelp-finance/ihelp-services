@@ -1,0 +1,6 @@
+[submodule "ihelp-contracts"]
+	path = ihelp-contracts
+	url = git@github.com:ihelp-finance/ihelp-contracts.git
+[submodule "ihelp-app"]
+	path = ihelp-app
+	url = git@github.com:ihelp-finance/ihelp-app.git
