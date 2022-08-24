@@ -1,6 +1,8 @@
 [submodule "ihelp-contracts"]
 	path = ihelp-contracts
 	url = git@github.com:ihelp-finance/ihelp-contracts.git
+	branch = master
 [submodule "ihelp-app"]
 	path = ihelp-app
 	url = git@github.com:ihelp-finance/ihelp-app.git
+	branch = master
