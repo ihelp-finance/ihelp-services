@@ -16,7 +16,7 @@ servicePort="$2"
 
 # SET THE K8S CONTEXT
 if [[ "$kubecontext" == "" ]];then
-  kubecontext="ihelp-cluster-local"
+  kubecontext="ihelp-cluster-aws"
 fi
 kubectl="kubectl --context=$kubecontext"
 
@@ -267,7 +267,7 @@ metadata:
   name: ihelp-upkeep
   namespace: ihelp-$network
 spec:
-  schedule: "0 0 */3 * *" # every 3 days
+  schedule: "0 3 */1 * *" # at 3am UTC (10pm CST) every 1 days
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -309,7 +309,7 @@ metadata:
   name: ihelp-reward
   namespace: ihelp-$network
 spec:
-  schedule: "0 1 */3 * *" # every 3 days
+  schedule: "0 4 */1 * *" # at 4am UTC (11pm CST) every 1 days
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
