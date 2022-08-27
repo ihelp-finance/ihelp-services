@@ -7,6 +7,9 @@ COPY . /core
 RUN yarn install --production
 RUN yarn add gnomon
 
+# build the client custom web3modal
+RUN cd src/modules/web3modal && yarn install && yarn build && cd ../../../
+
 # the app needs to be built before start for static env variables but this caches a first build
 RUN npm run build
 
