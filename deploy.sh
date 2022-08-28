@@ -283,8 +283,9 @@ spec:
           - name: upkeep
             image: turbinex/ihelp-scripts:$VERSION_TAG
             imagePullPolicy: Always
+            workingDir: /core/ihelp-contracts
             command: ["node"]
-            args: ["UPKEEP.js"]
+            args: ["scripts/UPKEEP.js"]
             envFrom:
             - secretRef:
                name: ihelp-secrets
