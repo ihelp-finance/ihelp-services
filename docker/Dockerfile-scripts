@@ -1,5 +1,7 @@
 FROM node:16
 
+RUN apt update && apt install vim -y
+
 WORKDIR /core/ihelp-app/config
 COPY ihelp-app/config/* ./
 RUN yarn install
