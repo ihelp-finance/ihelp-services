@@ -272,7 +272,7 @@ spec:
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 86400
-      activeDeadlineSeconds: 120
+      activeDeadlineSeconds: 1200
       template:
         metadata:
           labels:
@@ -315,7 +315,7 @@ spec:
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 86400
-      activeDeadlineSeconds: 120
+      activeDeadlineSeconds: 1200
       template:
         metadata:
           labels:
@@ -357,7 +357,7 @@ spec:
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 180
-      activeDeadlineSeconds: 120
+      activeDeadlineSeconds: 1200
       template:
         metadata:
           labels:
