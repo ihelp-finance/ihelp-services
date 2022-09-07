@@ -7,8 +7,14 @@ COPY . /core
 RUN yarn install --production
 RUN yarn add gnomon
 
-# build the client custom web3modal
-RUN cd src/modules/web3modal && yarn install && yarn build && cd ../../../
+# build the client custom web3modal modules
+RUN cd src/modules/web3modal && yarn install && yarn build && yarn link && cd ../
+
+RUN git clone https://github.com/safe-global/safe-apps-sdk.git safe-apps && cd safe-apps && git checkout @gnosis.pm/safe-apps-web3modal@9.0.0
+
+RUN yarn install && yarn link web3modal && cd packages/safe-apps-web3modal && yarn link && cd ../../../../../
+
+RUN yarn link "@gnosis.pm/safe-apps-web3modal"
 
 # the app needs to be built before start for static env variables but this caches a first build
 RUN npm run build
