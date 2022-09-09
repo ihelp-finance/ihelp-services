@@ -5,7 +5,7 @@ if [ $# -lt 2 ]; then
     exit 1
 fi 
 
-VERSION_TAG="v0.16"
+VERSION_TAG="v0.17"
 
 echo ""
 echo "DEPLOY VERSION $VERSION_TAG OF BUILT DOCKER CONTAINERS..."
