@@ -5,7 +5,7 @@ if [ $# -lt 2 ]; then
     exit 1
 fi 
 
-VERSION_TAG="v0.20"
+VERSION_TAG="v0.21"
 
 echo ""
 echo "DEPLOY VERSION $VERSION_TAG OF BUILT DOCKER CONTAINERS..."
@@ -52,9 +52,11 @@ metadata:
   name: ihelp-db
   namespace: ihelp-$network
 spec:
+  type: LoadBalancer
   ports:
   - name: db-port
     protocol: "TCP"
+    nodePort: 32222
     port: 5432
     targetPort: 5432
   selector:
